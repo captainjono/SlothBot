@@ -1,0 +1,9 @@
+﻿namespace SlothBot
+{
+    public interface ISlothLog
+    {
+        void Info(string message, params object[] args);
+        void Error(string message, params object[] args);
+        void Warn(string message, params object[] args);
+    }
+}

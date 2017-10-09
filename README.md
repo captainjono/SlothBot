@@ -1,47 +1,144 @@
-# Noobot / Noobot.Core
-Noobot is a SlackBot for C# built on the intention of extensibility; building a bot should be fun.
-
-[![Build status](https://ci.appveyor.com/api/projects/status/lvhpuswmafwv84kw?svg=true)](https://ci.appveyor.com/project/Workshop2/noobot)[![Nuget.org](https://img.shields.io/nuget/v/Noobot.Core.svg?style=flat)](https://www.nuget.org/packages/Noobot.Core)
-
-<p align="center">
-<img src="https://github.com/noobot/noobot/blob/master/img/noobot-small.png" alt="Noobot" />
-</p>
-
-```
-Install-Package Noobot.Core
-```
-
-## About
-I wanted to build a bot host/framework that was easy to work with, but also has the potential of being super powerful. 
-
-Noobot supports DI out of the box for all custom elements to ensure all elements could be easily tested and predictable. 
-
-Noobot is available as a Nuget package or standalone Console/Windows Service app.
+# SlothBot
+A lightweight C# Slackbot with minimum depdencies designed for streamlined integrations into new and existing codebases.
 
 ## Features
-
- - Available as a Nuget package to integrate into your apps (See [examples](https://github.com/noobot/noobot.examples))
- - Is super extensible
- - DI support out of the box
- - Automatically builds up `help` text with all supported commands
+ - Only dependency is SlackConnector
  - Middleware can send multiple messages for each message received
+ - Plugins allow lower level interaction with Slack
+ - Automatically builds up `help` text with all supported commands
  - Supports long running processes (async)
  - Typing Indicator - indicate to the end user that the bot has received the message and is processing the request
 
-## Examples
-You can find some examples of how to use the Nuget package in different scenarios at [Noobot.Examples](https://github.com/noobot/Noobot.Examples)
+## Get me started!
+The SlackConnector will manage your connection, so you only need to call Connect() once and your done
 
-## Download & setup
-We have compilled releases ready for you to use, all you need to do is fill out the `Configuration/config.json` file found in the zip file. Run over to [releases](https://github.com/noobot/noobot/releases) section to download the latest build.
+```csharp
+    /// Going online with your bot
+    /// 
+    /// var myBot = SlothBotFactory.Create(new PingMessageHandler())
+    /// await myBot.Connect() 
+    ///
+    /// Now in slack... 
+    /// me: @myBot ping
+    /// myBot: Pong! @me 
+    public class SlothBotFactory
+    {
+        public static SlothBot Create(string slackApiKey, params IMessageHandler[] handlers)
+        {
+            return new SlothBot(new StaticBotCfg()
+            {
+                SlackApiKey = slackApiKey
+            },
+            messageHandlers: handlers);
+        }
+    }
+```
 
-## Setup for development
-Please note that you will need to create a config.json file with your bot's api key. This should live under:
-`src/Noobot.Runner/Configuration`
+## More details
 
-Read how to get Noobot up and running quickly on the [wiki](https://github.com/noobot/noobot/wiki/Getting-Started-With-Noobot#get-noobot-up-and-running-quickly).
+### React to a chat message
+Simply implement IMessageHandler and return true from DoesHandle(). This will trigger Handle() to be called
 
-## How to customise
-To customise Noobot please have a look at our [wiki: https://github.com/noobot/noobot/wiki](https://github.com/noobot/noobot/wiki)
+```csharp
+public class PingMessageHandler : IMessageHandler
+    {
+        public IEnumerable<CommandDescription> GetSupportedCommands()
+        {
+            return new[]
+            {
+                new CommandDescription()
+                {
+                    Command = "ping",
+                    Description = "Replies to the user who sent the message with a \"Pong!\" response"
+                }
+            };
+        }
 
-## Toolbox
-You can find the ToolBox nuget package [here](https://github.com/noobot/Noobot.Toolbox) which contains lots of handy middleware ready to be plumbed into your bot such as Flickr support, jokes, schedules and more.
+        public bool DoesHandle(IncomingMessage message)
+        {
+            return message.BotIsMentioned &&
+                   message.TargetedText.StartsWith("ping", StringComparison.OrdinalIgnoreCase);
+        }
+
+        public IEnumerable<ResponseMessage> Handle(IncomingMessage message)
+        {
+            yield return message.ReplyToChannel($"Pong! @{message.Username}");
+        }
+    }
+```
+
+### Sometimes you need more control
+Implement an IPlugin instead and you get access to the raw ISlackConnection and ISlothBot
+
+```csharp
+    public class LogBackupPlugin : IPlugin
+    {
+        private ILogSource _source;
+        private Timer _logUploader;
+
+        public LogBackupPlugin(ILogSource source)
+        {
+            _source = source;
+        }
+
+        public void Start(ISlackConnection connection, ISlothBot bot)
+        {
+            _logUploader = new Timer((_) => UploadOnceADay(connection), null, TimeSpan.FromDays(1), TimeSpan.FromDays(1));
+        }
+
+		public void Stop()
+        {
+            _logUploader.Dispose();
+        }
+
+        private void UploadOnceADay(ISlackConnection connection)
+        {
+            connection.Upload(connection.ConnectedHubs.FirstOrDefault().Value, _source.GetCurrentLog(), "{0}.log".FormatWith(DateTime.Now.ToShortTimeString());
+        }
+    }
+```
+
+### Use your prefered logging framework
+Just implement ISlothLog
+
+```csharp
+    public interface ISlothLog
+    {
+	//General messages
+        void Info(string message, params object[] args);
+	//Critical messages
+        void Error(string message, params object[] args);
+	//Errors that will be automatically recovered from
+        void Warn(string message, params object[] args);
+    }
+```
+
+```csharp
+public class AnotherFrameworkLogger : ISlothLog
+    {
+        private readonly ILogger _log;
+
+        public AnotherFrameworkLogger(ILogger log)
+        {
+            _log = log;
+        }
+
+        public void Info(string message, params object[] args)
+        {
+            _log.Information(message.FormatWith(args));
+        }
+
+        public void Error(string message, params object[] args)
+        {
+            _log.Error(message.FormatWith(args));
+        }
+
+        public void Warn(string message, params object[] args)
+        {
+            _log.Warning(message.FormatWith(args));
+        }
+    }
+```
+
+### IoC ready
+Containers are great, SlothBot comes out of the box ready for Constructor injection
