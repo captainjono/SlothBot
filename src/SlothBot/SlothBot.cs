@@ -9,6 +9,9 @@ using SlothBot.MessagingPipeline;
 
 namespace SlothBot
 {
+    /// <summary>
+    /// An implementation of sloth bot which is tightly coupled with SlackConnector. 
+    /// </summary>
     public class SlothBot : ISlothBot
     {
         private readonly ISlackConfig _slackConfig;
@@ -19,6 +22,13 @@ namespace SlothBot
         private bool _isDisconnecting;
         private IPlugin[] _plugins;
 
+        /// <summary>
+        /// Creates a new sloth bot ready for connect()'ion
+        /// </summary>
+        /// <param name="slackConfig">The cfg that tells slack who this bot is</param>
+        /// <param name="log">The logger sloth bot will use, defaults to ConsoleLog</param>
+        /// <param name="messageHandlers">Any message handlers sloth bot will react to messages with. Also can be set later with SetHandlers()</param>
+        /// <param name="plugins">Any message handlers sloth bot will integrate with. Also can be set later with SetPlugins()</param>
         public SlothBot(ISlackConfig slackConfig, ISlothLog log = null, IMessageHandler[] messageHandlers = null, IPlugin[] plugins = null)
         {
             _slackConfig = slackConfig;
@@ -29,11 +39,19 @@ namespace SlothBot
             SetupHandlers(messageHandlers ?? new IMessageHandler[] { });
         }
 
+        /// <summary>
+        /// Sets the plugins that this bot will integrate with
+        /// </summary>
+        /// <param name="plugins"></param>
         public void SetupPlugins(IPlugin[] plugins)
         {
             _plugins = plugins;
         }
 
+        /// <summary>
+        /// Sets the message handlers that this bot will react to messages with
+        /// </summary>
+        /// <param name="plugins"></param>
         public void SetupHandlers(IMessageHandler[] messageHandler)
         {
             _middleware = msg =>
@@ -44,6 +62,10 @@ namespace SlothBot
             };
         }
 
+        /// <summary>
+        /// Connects to slack in a persistant manner. Reconnections will *mostly* be handled for you.
+        /// </summary>
+        /// <returns></returns>
         public async Task Connect()
         {
             _log.Info("Connecting...");
@@ -113,6 +135,10 @@ namespace SlothBot
             }
         }
 
+        /// <summary>
+        /// Reconnects to slack in case of a network failure or other critical event
+        /// </summary>
+        /// <returns></returns>
         public Task Reconnect()
         {
             _log.Info("Reconnecting...");
@@ -137,7 +163,12 @@ namespace SlothBot
             });
         }
 
-        public async Task MessageReceived(SlackMessage message)
+        /// <summary>
+        /// Called when a message is received in any of the channels the bot is connected to
+        /// </summary>
+        /// <param name="message"></param>
+        /// <returns></returns>
+        private async Task MessageReceived(SlackMessage message)
         {
             _log.Info("Message found from '{0}'", message.User.Name);
 

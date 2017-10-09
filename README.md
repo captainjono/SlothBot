@@ -1,3 +1,7 @@
+<p align="center">
+<img src="https://github.com/captainjono/slothbot/blob/master/img/slothbot.jpg" alt="SlothBot" />
+</p>
+
 # SlothBot
 A lightweight C# Slackbot with minimum depdencies designed for streamlined integrations into new and existing codebases.
 

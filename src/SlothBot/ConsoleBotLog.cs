@@ -2,6 +2,9 @@
 
 namespace SlothBot
 {
+    /// <summary>
+    /// A logger that outputs to the console
+    /// </summary>
     public class ConsoleBotLog : ISlothLog
     {
         public void Info(string message, params object[] args)

@@ -4,10 +4,14 @@ using SlothBot.MessagingPipeline;
 
 namespace SlothBot.Examples.ConsoleHost
 {
+    /// <summary>
+    /// This is the recommmended way to use sloth bot
+    /// </summary>
     public class SlothBotFactory
     {
         public static SlothBot Create(string slackApiKey, params IMessageHandler[] handlers)
         {
+            //instead of new'ing up, you may choose to resolve from your container if using IoC
             return new SlothBot(new StaticBotCfg()
             {
                 SlackApiKey = slackApiKey
@@ -16,6 +20,9 @@ namespace SlothBot.Examples.ConsoleHost
         }
     }
 
+    /// <summary>
+    /// A basic console host for sloth bot that terminates when a key is pressed
+    /// </summary>
     public static class ConsoleHost
     {
         public static void Main(string[] args)
@@ -23,14 +30,17 @@ namespace SlothBot.Examples.ConsoleHost
             var bot = SlothBotFactory.Create("xoxb-254374892295-nbnuF3WfGlMDkn7yHucoDpQD", new PingMessageHandler());
             bot.Connect()
                .ContinueWith(async _ =>
-                {
-                    await bot.Say("general", "Hey guys, whats up?");
-                });
+               {
+                   await bot.Say("general", "Hey guys, whats up?");
+               });
 
             Console.ReadLine();
         }
     }
 
+    /// <summary>
+    /// An example of a basic message handler that replies to a users "ping" request, with "pong"
+    /// </summary>
     public class PingMessageHandler : IMessageHandler
     {
         public IEnumerable<CommandDescription> GetSupportedCommands()

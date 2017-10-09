@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.26730.12
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SlothBot", "src\SlothBot\SlothBot.csproj", "{71634E83-FBBC-42D6-9996-79F73D0BB3A6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SlothBot", "src\SlothBot\SlothBot.csproj", "{71634E83-FBBC-42D6-9996-79F73D0BB3A6}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{0A6A4AD2-ED47-475C-9A39-08D219FBD364}"
 	ProjectSection(SolutionItems) = preProject
@@ -11,9 +11,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		.gitignore = .gitignore
 		LICENSE = LICENSE
 		README.md = README.md
+		img\slothbot.jpg = img\slothbot.jpg
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SlothBot.Examples.ConsoleHost", "src\SlothBot.Examples.ConsoleHost\SlothBot.Examples.ConsoleHost.csproj", "{94CF9226-5332-45F7-BD90-A27FDD5B918A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SlothBot.Examples.ConsoleHost", "src\SlothBot.Examples.ConsoleHost\SlothBot.Examples.ConsoleHost.csproj", "{2F7960A7-4CEA-4D2F-8DEE-D73B57733324}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -25,10 +26,10 @@ Global
 		{71634E83-FBBC-42D6-9996-79F73D0BB3A6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{71634E83-FBBC-42D6-9996-79F73D0BB3A6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{71634E83-FBBC-42D6-9996-79F73D0BB3A6}.Release|Any CPU.Build.0 = Release|Any CPU
-		{94CF9226-5332-45F7-BD90-A27FDD5B918A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{94CF9226-5332-45F7-BD90-A27FDD5B918A}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{94CF9226-5332-45F7-BD90-A27FDD5B918A}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{94CF9226-5332-45F7-BD90-A27FDD5B918A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2F7960A7-4CEA-4D2F-8DEE-D73B57733324}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2F7960A7-4CEA-4D2F-8DEE-D73B57733324}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2F7960A7-4CEA-4D2F-8DEE-D73B57733324}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2F7960A7-4CEA-4D2F-8DEE-D73B57733324}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
