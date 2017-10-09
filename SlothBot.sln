@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.26730.12
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SlothBot", "SlothBot\SlothBot.csproj", "{71634E83-FBBC-42D6-9996-79F73D0BB3A6}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SlothBot", "src\SlothBot\SlothBot.csproj", "{71634E83-FBBC-42D6-9996-79F73D0BB3A6}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{0A6A4AD2-ED47-475C-9A39-08D219FBD364}"
 	ProjectSection(SolutionItems) = preProject
@@ -13,7 +13,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		README.md = README.md
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SlothBot.Examples.ConsoleHost", "SlothBot.Examples.ConsoleHost\SlothBot.Examples.ConsoleHost.csproj", "{94CF9226-5332-45F7-BD90-A27FDD5B918A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SlothBot.Examples.ConsoleHost", "src\SlothBot.Examples.ConsoleHost\SlothBot.Examples.ConsoleHost.csproj", "{94CF9226-5332-45F7-BD90-A27FDD5B918A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
