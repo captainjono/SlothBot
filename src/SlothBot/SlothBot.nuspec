@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>SlothBot</id>
+    <version>1.0</version>
+    <title>SlothBot</title>
+    <authors>CaptainJono</authors>
+    <owners>CaptainJono</owners>
+    <licenseUrl>http://www.opensource.org/licenses/mit-license.php</licenseUrl>
+    <projectUrl>http://github.com/captainjono/slothbot</projectUrl>
+    <iconUrl>https://raw.githubusercontent.com/captainjono/slothbot/master/img/slothbot.jpg</iconUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>A dependency free slack bot that is perfect for integrating into existing projects</description>
+    <language>en-US</language>
+    <tags>slack bot noobot chatops devops</tags> 
+  </metadata>
+</package>

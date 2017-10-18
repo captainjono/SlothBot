@@ -5,6 +5,8 @@
 # SlothBot
 A lightweight C# Slackbot with minimum depdencies designed for streamlined integrations into new and existing codebases.
 
+[![NuGet](https://img.shields.io/nuget/v/SlothBot.svg)](https://nuget.org/packages/SlothBot)
+
 ## Features
  - Only dependency is SlackConnector
  - Middleware can send multiple messages for each message received
@@ -45,30 +47,30 @@ Simply implement IMessageHandler and return true from DoesHandle(). This will tr
 
 ```csharp
 public class PingMessageHandler : IMessageHandler
+{
+    public IEnumerable<CommandDescription> GetSupportedCommands()
     {
-        public IEnumerable<CommandDescription> GetSupportedCommands()
+        return new[]
         {
-            return new[]
+            new CommandDescription()
             {
-                new CommandDescription()
-                {
-                    Command = "ping",
-                    Description = "Replies to the user who sent the message with a \"Pong!\" response"
-                }
-            };
-        }
-
-        public bool DoesHandle(IncomingMessage message)
-        {
-            return message.BotIsMentioned &&
-                   message.TargetedText.StartsWith("ping", StringComparison.OrdinalIgnoreCase);
-        }
-
-        public IEnumerable<ResponseMessage> Handle(IncomingMessage message)
-        {
-            yield return message.ReplyToChannel($"Pong! @{message.Username}");
-        }
+                Command = "ping",
+                Description = "Replies to the user who sent the message with a \"Pong!\" response"
+            }
+        };
     }
+
+    public bool DoesHandle(IncomingMessage message)
+    {
+        return message.BotIsMentioned &&
+                message.TargetedText.StartsWith("ping", StringComparison.OrdinalIgnoreCase);
+    }
+
+    public IEnumerable<ResponseMessage> Handle(IncomingMessage message)
+    {
+        yield return message.ReplyToChannel($"Pong! @{message.Username}");
+    }
+}
 ```
 
 ### Sometimes you need more control
@@ -119,29 +121,29 @@ Just implement ISlothLog
 
 ```csharp
 public class AnotherFrameworkLogger : ISlothLog
+{
+    private readonly ILogger _log;
+
+    public AnotherFrameworkLogger(ILogger log)
     {
-        private readonly ILogger _log;
-
-        public AnotherFrameworkLogger(ILogger log)
-        {
-            _log = log;
-        }
-
-        public void Info(string message, params object[] args)
-        {
-            _log.Information(message.FormatWith(args));
-        }
-
-        public void Error(string message, params object[] args)
-        {
-            _log.Error(message.FormatWith(args));
-        }
-
-        public void Warn(string message, params object[] args)
-        {
-            _log.Warning(message.FormatWith(args));
-        }
+        _log = log;
     }
+
+    public void Info(string message, params object[] args)
+    {
+        _log.Information(message.FormatWith(args));
+    }
+
+    public void Error(string message, params object[] args)
+    {
+        _log.Error(message.FormatWith(args));
+    }
+
+    public void Warn(string message, params object[] args)
+    {
+        _log.Warning(message.FormatWith(args));
+    }
+}
 ```
 
 ### IoC ready
