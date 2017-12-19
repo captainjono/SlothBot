@@ -4,6 +4,7 @@
 
 # SlothBot
 A lightweight C# Slackbot with minimum depdencies designed for streamlined integrations into new and existing codebases.
+> Dont know what compiling is? Just want to [slackify](https://slack.com) and existing app? [SlothBot.Bridge](src/SlothBot.Bridge/README.md) might be more your style**
 
 [![NuGet](https://img.shields.io/nuget/v/SlothBot.svg)](https://nuget.org/packages/SlothBot)
 
@@ -16,7 +17,7 @@ A lightweight C# Slackbot with minimum depdencies designed for streamlined integ
  - Typing Indicator - indicate to the end user that the bot has received the message and is processing the request
 
 ## Get me started!
-The SlackConnector will manage your connection, so you only need to call Connect() once and your done
+The ```SlackConnector``` will manage your connection, so you only need to call ```Connect()``` once and your done
 
 ```csharp
     /// Going online with your bot
@@ -43,7 +44,7 @@ The SlackConnector will manage your connection, so you only need to call Connect
 ## More details
 
 ### React to a single chat message
-Simply implement IMessageHandler and return true from DoesHandle(). This will trigger Handle() to be called
+Simply implement ```IMessageHandler``` and return true from ```DoesHandle()```. This will trigger ``Handle()`` to be called
 
 ```csharp
 public class PingMessageHandler : IMessageHandler
@@ -76,20 +77,24 @@ public class PingMessageHandler : IMessageHandler
 ### Or start a conversation
 By utilising built-in questionaires which support a variety of workflow scenarios
 
-```
+```csharp
 public class PingRequestHandler : QuestionaireMessageHanlder<NestedQuestionaire<UserResponse>>
 {
     public override NestedQuestionaire QuestionaireFor(IncomingMessage message)
     {
 		var result = new UserResponse();
         return new NestedQuestionaire(result).SetupWith(
-            Questions.AskThenDo("What IP do you want me to ping?", ip => result.IP = ip).ForQuestionaire(),
-            Questions.AskThenDo("How large should the ping be?", size => result.Size = size).ForQuestionaire(),
-            Questions.AskThenDo("How many times to ping?", numberOfTimes => result.PingRequests = numberOfTimes).ForQuestionaire()
+            Questions.AskThenDo("What IP do you want me to ping?", ip => result.IP = ip)
+					 .ForQuestionaire(),
+            Questions.AskThenDo("How large should the ping be?", size => result.Size = size)
+					 .ForQuestionaire(),
+            Questions.AskThenDo("How many times to ping?", numberOfTimes => result.PingRequests = numberOfTimes)
+					 .ForQuestionaire()
         );
     }
 
-    protected override IObservable<ResponseMessage> OnQuestionaireCompleted(PingQuestionaire questions, string username)
+    protected override IObservable<ResponseMessage> OnQuestionaireCompleted(PingQuestionaire questions, 
+																			string username)
     {
         return PingServerAndRespond(questions.Result.IP, questions.Result.Size, questions.Result.PingRequests);
     }
@@ -100,16 +105,15 @@ public class PingRequestHandler : QuestionaireMessageHanlder<NestedQuestionaire<
     }
 }	
 ```
-[More advanced features...](ADVANCED.md) 
+>[More advanced features...](ADVANCED.md) 
 
-### Or you you already have an app / program / script you want to expose
+### Or you already have an app / program / script you want to expose
 But dont want to / cant recompile the code-base just to add SlothBot. Or maybe you arnt very techy, 
 you just have a .dll or a .exe or other shell script thats ready to be bot-ified
-
-Check-out: SlothBot.Bridge
+> **Download: [SlothBot.Bridge](src/SlothBot.Bridge/README.md) today and free yourself**
 
 ### Othertimes, you just want max control
-Implement an IPlugin instead and you get access to the raw ISlackConnection and ISlothBot
+Implement an ```IPlugi``` instead and you get access to the raw ```ISlackConnection``` and ```ISlothBot```
 
 ```csharp
     public class LogBackupPlugin : IPlugin
@@ -140,7 +144,7 @@ Implement an IPlugin instead and you get access to the raw ISlackConnection and 
 ```
 
 ### Use your prefered logging framework
-Just implement ISlothLog
+Just implement ```ISlothLog```
 
 ```csharp
     public interface ISlothLog

@@ -1,11 +1,20 @@
-﻿# SlothBot Bridge
-Run your existing app / script in a secure fashion without any code
+﻿<p align="center">
+<img src="https://github.com/captainjono/slothbot/blob/master/img/bridge.png" alt="SlothBot Bridge Logo" />
+</p>
+
+# SlothBot Bridge
+Run your existing app / script in a secure fashion _without any code_
+
+>**Windows** : [SlothBot.Bridge v1.0.0.0 beta](https://github.com/captainjono/SlothBot/raw/master/dist/SlothBot.Bridge-1.0.0.0beta.zip)
+
+>**Mac** : _use dotnet run_
 
 ## The User Story
 So you have an asset you want to expose over Slack, but dont want to compile anything custom?
 
->_In this scenario, lets say im an Admin who has a script that he runs to check production servers for uptime. The admin wants to setup some >aliases for this script so users dont need to remmber
->the IP address of each production server. He doesnt want to give access to all scripts in his toolbox._
+>In this scenario, lets say im an Admin who has a script that he runs to check production servers for uptime. 
+>The admin wants to setup some  aliases for this script so users dont need to remmber
+>the IP address of each production server. He doesnt want to give access to all scripts in his toolbox.
 
 ### Steps 
 Admin downloads [SlothBot.Bridge](dist/SlothBot.Bridge-1.0.0.0beta.zip) and creates a ```enabledProcesses.json``` with his tool of choice, adds api key and runs the bridge running under a restricted user
