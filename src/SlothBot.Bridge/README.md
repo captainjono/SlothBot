@@ -1,4 +1,4 @@
-﻿<p align="center">
+﻿﻿<p align="center">
 <img src="https://github.com/captainjono/slothbot/blob/master/img/bridge.png" alt="SlothBot Bridge Logo" />
 </p>
 
@@ -7,7 +7,7 @@ Run your existing app / script in a secure fashion _without any code_
 
 >**Windows** : [SlothBot.Bridge v1.0.0.0 beta](https://github.com/captainjono/SlothBot/raw/master/dist/SlothBot.Bridge-1.0.0.0beta.zip)
 
->**Mac** : _use dotnet run_
+>**Mac/Linux** : _the bridge is built using .netStandard, accepting pull requests to make this possible_
 
 ## The User Story
 So you have an asset you want to expose over Slack, but dont want to compile anything custom?
@@ -17,17 +17,16 @@ So you have an asset you want to expose over Slack, but dont want to compile any
 >the IP address of each production server. He doesnt want to give access to all scripts in his toolbox.
 
 ### Steps 
-Admin downloads [SlothBot.Bridge](dist/SlothBot.Bridge-1.0.0.0beta.zip) and creates a ```enabledProcesses.json``` with his tool of choice, adds api key and runs the bridge running under a restricted user
+Admin downloads [SlothBot.Bridge](https://github.com/captainjono/SlothBot/raw/master/dist/SlothBot.Bridge-1.0.0.0beta.zip) and creates a ```enabledProcesses.json``` with his tool of choice, adds api key and runs the bridge running under a restricted user
 
 > **Edit** _enabledProcesses.json_
 ```json
 [
   {
       "ProcessName": "verifyAccess",
-      "Path": "c:\utils\verifyAccess.exe",
+      "Path": "c:/utils/verifyAccess.exe",
       "UsernamesWhoCanAlias": ["Admin"]
-  },
-  ... more processes ...
+  },  
 ]
 ```
 
@@ -77,10 +76,10 @@ bridge allows the user to slightly customise the process params at runtime
 [promoteBuild] Done!
 ```
 
-### but dont want to expose sensitive keys to the world
-using a file argument instead of a defined param means the key never touches slack
+### with security of sensitive keys in mind
+using a file argument instead of a defined parameter means the key never touches slack
 
-> slothbot.json_
+> _slothbot.json_
 ```json
 {
   "IsSecure": true,
@@ -98,11 +97,11 @@ using a file argument instead of a defined param means the key never touches sla
 ```
 
 ### SlothBot speaks your language...
-Talking with _SlothBot_ should be more like talking with a friend. you dont have to be precise
+Talking with SlothBot should be more like talking with a friend. you dont have to be precise
 > **_future_**  He will understand your slang terms and look in your sentances for commands 
 
 ### ... and lastly, is my tool already bridged?!
-bridge current supports apps of type
+bridge supports apps of type
 - [x] any .exe, .bat, .sh
 - [ ] method from a .dll
 

@@ -4,7 +4,7 @@
 
 # SlothBot
 A lightweight C# Slackbot with minimum depdencies designed for streamlined integrations into new and existing codebases.
-> Dont know what compiling is? Just want to [slackify](https://slack.com) and existing app? [SlothBot.Bridge](src/SlothBot.Bridge/README.md) might be more your style**
+> Dont know what compiling is? Just want to [slackify](https://slack.com) and existing app? [SlothBot.Bridge](src/SlothBot.Bridge) might be more your style**
 
 [![NuGet](https://img.shields.io/nuget/v/SlothBot.svg)](https://nuget.org/packages/SlothBot)
 
