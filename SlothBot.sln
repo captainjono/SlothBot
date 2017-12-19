@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26730.12
+VisualStudioVersion = 15.0.27130.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SlothBot", "src\SlothBot\SlothBot.csproj", "{71634E83-FBBC-42D6-9996-79F73D0BB3A6}"
 EndProject
@@ -9,12 +9,24 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 	ProjectSection(SolutionItems) = preProject
 		.gitattributes = .gitattributes
 		.gitignore = .gitignore
+		ADVANCED.md = ADVANCED.md
 		LICENSE = LICENSE
 		README.md = README.md
 		img\slothbot.jpg = img\slothbot.jpg
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SlothBot.Examples.ConsoleHost", "src\SlothBot.Examples.ConsoleHost\SlothBot.Examples.ConsoleHost.csproj", "{2F7960A7-4CEA-4D2F-8DEE-D73B57733324}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SlothBot.Bridge", "src\SlothBot.Bridge\SlothBot.Bridge.csproj", "{2B7D22B2-BE5D-4B60-8F26-08180542C99E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SlothBot.Tests", "src\SlothBot.Tests\SlothBot.Tests.csproj", "{DBD97C3F-9EA1-4F22-941C-4689532F2B9C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SlothBot.Bridge.Host", "src\SlothBot.Bridge.Host\SlothBot.Bridge.Host.csproj", "{EE344E81-BD9C-4D54-9305-3651A09191E4}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "dist", "dist", "{F37229DD-778F-4127-868A-FDF9B9846A47}"
+	ProjectSection(SolutionItems) = preProject
+		dist\SlothBot.Bridge-1.0.0.0beta.zip = dist\SlothBot.Bridge-1.0.0.0beta.zip
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -30,9 +42,24 @@ Global
 		{2F7960A7-4CEA-4D2F-8DEE-D73B57733324}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2F7960A7-4CEA-4D2F-8DEE-D73B57733324}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2F7960A7-4CEA-4D2F-8DEE-D73B57733324}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2B7D22B2-BE5D-4B60-8F26-08180542C99E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2B7D22B2-BE5D-4B60-8F26-08180542C99E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2B7D22B2-BE5D-4B60-8F26-08180542C99E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2B7D22B2-BE5D-4B60-8F26-08180542C99E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DBD97C3F-9EA1-4F22-941C-4689532F2B9C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DBD97C3F-9EA1-4F22-941C-4689532F2B9C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DBD97C3F-9EA1-4F22-941C-4689532F2B9C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DBD97C3F-9EA1-4F22-941C-4689532F2B9C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EE344E81-BD9C-4D54-9305-3651A09191E4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EE344E81-BD9C-4D54-9305-3651A09191E4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EE344E81-BD9C-4D54-9305-3651A09191E4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EE344E81-BD9C-4D54-9305-3651A09191E4}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{F37229DD-778F-4127-868A-FDF9B9846A47} = {0A6A4AD2-ED47-475C-9A39-08D219FBD364}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {097EEE87-5D85-4FF8-B645-DDF30F927D49}

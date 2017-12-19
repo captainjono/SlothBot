@@ -27,7 +27,7 @@ namespace SlothBot.Examples.ConsoleHost
     {
         public static void Main(string[] args)
         {
-            var bot = SlothBotFactory.Create("xoxb-254374892295-nbnuF3WfGlMDkn7yHucoDpQD", new PingMessageHandler());
+            var bot = SlothBotFactory.Create("your-slack-api-key", new PingMessageHandler());
             bot.Connect()
                .ContinueWith(async _ =>
                {
@@ -60,10 +60,10 @@ namespace SlothBot.Examples.ConsoleHost
             return message.BotIsMentioned &&
                    message.TargetedText.StartsWith("ping", StringComparison.OrdinalIgnoreCase);
         }
-
+        
         public IEnumerable<ResponseMessage> Handle(IncomingMessage message)
         {
-            yield return message.ReplyToChannel($"Pong! @{message.Username}");
+            yield return message.ReplyToChannel($"Pong! <@{message.UserId}>");
         }
     }
 }

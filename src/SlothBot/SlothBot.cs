@@ -18,9 +18,10 @@ namespace SlothBot
         private readonly ISlothLog _log;
         private Func<IncomingMessage, IEnumerable<ResponseMessage>> _middleware;
         private ISlackConnection _connection;
-
         private bool _isDisconnecting;
-        private IPlugin[] _plugins;
+
+        public IPlugin[] Plugins { get; private set; }
+        public IMessageHandler[] MessageHandlers { get; private set; }
 
         /// <summary>
         /// Creates a new sloth bot ready for connect()'ion
@@ -33,7 +34,7 @@ namespace SlothBot
         {
             _slackConfig = slackConfig;
             _log = log ?? new ConsoleBotLog();
-            _plugins = plugins;
+            Plugins = plugins;
             _middleware = _ => new ResponseMessage[] { };
             _slackConfig = slackConfig;
             SetupHandlers(messageHandlers ?? new IMessageHandler[] { });
@@ -45,18 +46,19 @@ namespace SlothBot
         /// <param name="plugins"></param>
         public void SetupPlugins(IPlugin[] plugins)
         {
-            _plugins = plugins;
+            Plugins = plugins;
         }
 
         /// <summary>
         /// Sets the message handlers that this bot will react to messages with
         /// </summary>
         /// <param name="plugins"></param>
-        public void SetupHandlers(IMessageHandler[] messageHandler)
+        public void SetupHandlers(IMessageHandler[] messageHandlers)
         {
             _middleware = msg =>
             {
-                return messageHandler
+                return messageHandlers
+                        .Concat(new IMessageHandler[] {new HelpMessageHandler(messageHandlers)})
                         .Where(m => m.DoesHandle(msg))
                         .SelectMany(m => m.Handle(msg));
             };
@@ -84,7 +86,7 @@ namespace SlothBot
 
         private void StartPlugins()
         {
-            foreach (var plugin in _plugins)
+            foreach (var plugin in Plugins)
             {
                 try
                 {
@@ -92,14 +94,14 @@ namespace SlothBot
                 }
                 catch (Exception e)
                 {
-                    _log.Error("Could not start plugin '{0}' because '{1}'".FormatWith( plugin.GetType().Name, e));
+                    _log.Error("Could not start plugin '{0}' because '{1}'".FormatWith(plugin.GetType().Name, e));
                 }
             }
         }
 
         private void StopPlugins()
         {
-            foreach (var plugin in _plugins)
+            foreach (var plugin in Plugins)
             {
                 try
                 {
@@ -111,7 +113,7 @@ namespace SlothBot
                 }
             }
         }
-        
+
         public async Task Disconnect()
         {
             _isDisconnecting = true;
@@ -193,7 +195,7 @@ namespace SlothBot
 
             try
             {
-                foreach (ResponseMessage responseMessage in _middleware(incomingMessage))
+                foreach (var responseMessage in _middleware(incomingMessage))
                 {
                     await SendMessage(responseMessage);
                 }

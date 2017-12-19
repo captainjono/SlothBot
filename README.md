@@ -42,7 +42,7 @@ The SlackConnector will manage your connection, so you only need to call Connect
 
 ## More details
 
-### React to a chat message
+### React to a single chat message
 Simply implement IMessageHandler and return true from DoesHandle(). This will trigger Handle() to be called
 
 ```csharp
@@ -68,12 +68,47 @@ public class PingMessageHandler : IMessageHandler
 
     public IEnumerable<ResponseMessage> Handle(IncomingMessage message)
     {
-        yield return message.ReplyToChannel($"Pong! @{message.Username}");
+        yield return message.ReplyToChannel($"Pong! <@{message.UserId}>");
     }
 }
 ```
 
-### Sometimes you need more control
+### Or start a conversation
+By utilising built-in questionaires which support a variety of workflow scenarios
+
+```
+public class PingRequestHandler : QuestionaireMessageHanlder<NestedQuestionaire<UserResponse>>
+{
+    public override NestedQuestionaire QuestionaireFor(IncomingMessage message)
+    {
+		var result = new UserResponse();
+        return new NestedQuestionaire(result).SetupWith(
+            Questions.AskThenDo("What IP do you want me to ping?", ip => result.IP = ip).ForQuestionaire(),
+            Questions.AskThenDo("How large should the ping be?", size => result.Size = size).ForQuestionaire(),
+            Questions.AskThenDo("How many times to ping?", numberOfTimes => result.PingRequests = numberOfTimes).ForQuestionaire()
+        );
+    }
+
+    protected override IObservable<ResponseMessage> OnQuestionaireCompleted(PingQuestionaire questions, string username)
+    {
+        return PingServerAndRespond(questions.Result.IP, questions.Result.Size, questions.Result.PingRequests);
+    }
+
+    protected override bool TriggersAQuestionaire(IncomingMessage message)
+    {
+        return message.TargetedText.StartsWith("ping", StringComparison.OrdinalIgnoreCase);
+    }
+}	
+```
+[More advanced features...](ADVANCED.md) 
+
+### Or you you already have an app / program / script you want to expose
+But dont want to / cant recompile the code-base just to add SlothBot. Or maybe you arnt very techy, 
+you just have a .dll or a .exe or other shell script thats ready to be bot-ified
+
+Check-out: SlothBot.Bridge
+
+### Othertimes, you just want max control
 Implement an IPlugin instead and you get access to the raw ISlackConnection and ISlothBot
 
 ```csharp
